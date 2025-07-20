@@ -2,7 +2,7 @@
 
 import Plot from "@/components/Plot";
 import Plotly from "@/components/Plotly";
-import Toolbar from "@/components/Toolbar";
+import ToolBar from "@/components/ToolBar";
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { convertData } from "@/utils/helpers";
@@ -51,7 +51,7 @@ export default function Index() {
                             yTitle={plotData.feature_names[selectedYAxis]}
                         />
                     </div>
-                    <Toolbar
+                    <ToolBar
                         selectedXAxis={selectedXAxis}
                         selectedYAxis={selectedYAxis}
                         featureNames={featureNames}
