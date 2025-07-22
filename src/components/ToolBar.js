@@ -2,64 +2,63 @@
 
 import MyButton from "@/components/MyButton";
 import MySelect from "@/components/MySelect";
-
 import { useEffect, useState } from 'react';
+import { kmeansStore } from "@/store/kmeans"
 
-export default function Index({
-    featureNames,
-    k,
-    onXAxisChange,
-    onYAxisChange,
-    selectedXAxis,
-    selectedYAxis,
-    onKChange,
-    selectedK,
-    onUpdateData,
-    onSetIsShowCluster }) {
+export default function Index() {
 
-    const handleButtonClick = () => {
-        console.log('Button was clicked in parent component!');
-        alert('Button clicked from parent!');
-    };
+    var toolbar = kmeansStore((state) => state.toolbar)
+    var featureNames = toolbar.featureNames
+    var k = toolbar.k
+    var selectedX = toolbar.selectedX
+    var selectedY = toolbar.selectedY
+    var selectedK = toolbar.selectedK
+    var updateToolbar = kmeansStore((state) => state.updateToolbar)
+    var loadPlot = kmeansStore((state) => state.loadPlot)
 
-    const [selectedOption, setSelectedOption] = useState('');
-
-    const handleChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
-
-    return (
-        <>
-            <div className="flex gap-4">
-                <div>
-                    <MySelect selectedIndex={selectedXAxis} data={featureNames} key_prefix={'x_axis_'} handleChange={(event) => {
-                        onXAxisChange(event.target.value)
+    return (<>
+        <div className="flex gap-4">
+            <div>
+                <MySelect
+                    selectedIndex={selectedX}
+                    data={featureNames}
+                    key_prefix={'x_axis_'}
+                    handleChange={(event) => {
+                        updateToolbar({ selectedX: event.target.value })
                     }} />
-                </div>
-                <div>
-                    <MySelect selectedIndex={selectedYAxis} data={featureNames} key_prefix={'y_axis_'} handleChange={(event) => {
-                        onYAxisChange(event.target.value)
-                    }} />
-                </div>
-                <MyButton
-                    title="Original Data"
-                    onClick={() => {
-                        onSetIsShowCluster(false)
-                    }}
-                />
-                <MyButton
-                    title="After K-means Analysis"
-                    onClick={() => {
-                        onSetIsShowCluster(true)
-                        onUpdateData()
-                    }}
-                />
-                <div>
-                    <MySelect selectedIndex={selectedK} data={k} key_prefix={'k_'} handleChange={(event) => {
-                        onKChange(event.target.value)
-                    }} />
-                </div>
             </div>
-        </>
-    );
+            <div>
+                <MySelect
+                    selectedIndex={selectedY}
+                    data={featureNames}
+                    key_prefix={'y_axis_'}
+                    handleChange={(event) => {
+                        updateToolbar({ selectedY: event.target.value })
+                    }} />
+            </div>
+            <MyButton
+                title="Original Data"
+                onClick={() => {
+                    updateToolbar({ isShowCluster: false })
+                    loadPlot(selectedK)
+                }}
+            />
+            <MyButton
+                title="K-means Analysis"
+                onClick={() => {
+                    updateToolbar({ isShowCluster: true })
+                    loadPlot(selectedK)
+                }}
+            />
+            <div>
+                <MySelect
+                    selectedIndex={selectedK}
+                    data={k}
+                    key_prefix={'k_'}
+                    handleChange={(event) => {
+                        updateToolbar({ selectedK: event.target.value })
+                    }} />
+            </div>
+        </div>
+    </>)
 }

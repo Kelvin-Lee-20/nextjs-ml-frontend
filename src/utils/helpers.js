@@ -8,7 +8,6 @@ const packData = (data, target) => {
 }
 
 export const getColor = (idx) => {
-
     return [
         "#FF6384",
         "#36A2EB",
@@ -30,8 +29,6 @@ export const getColor = (idx) => {
         "#50E991",
         "#E6D800",
         "#9B19F5"][idx]
-
-    return ['red', 'blue', 'yellow', 'brown', 'purple'][idx]
 }
 
 export const convertData = (data, x = 0, y = 1, isShowCluster) => {

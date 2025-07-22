@@ -2,6 +2,7 @@ export default function Index({ data, key_prefix, handleChange, selectedIndex = 
     return (
         <select
             className="
+                cursor-pointer
                 form-select 
                 appearance-none
                 block
