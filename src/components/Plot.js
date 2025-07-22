@@ -32,13 +32,13 @@ export default function Index() {
                             x: {
                                 title: {
                                     display: true,
-                                    text: xTitle
+                                    text: apiData.feature_names[selectedX]
                                 }
                             },
                             y: {
                                 title: {
                                     display: true,
-                                    text: yTitle
+                                    text: apiData.feature_names[selectedY]
                                 }
                             }
                         }
