@@ -2,7 +2,6 @@
 
 import MyButton from "@/components/MyButton";
 import MySelect from "@/components/MySelect";
-import { useEffect, useState } from 'react';
 import { kmeansStore } from "@/store/kmeans"
 
 export default function Index() {
@@ -17,7 +16,7 @@ export default function Index() {
     var loadPlot = kmeansStore((state) => state.loadPlot)
 
     return (<>
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
             <div>
                 <MySelect
                     selectedIndex={selectedX}

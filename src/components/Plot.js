@@ -12,39 +12,32 @@ export default function Index() {
 
     var plot = kmeansStore((state) => state.plot)
     var apiData = plot.apiData
-    var xTitle = plot.xTitle
-    var yTitle = plot.yTitle
-
     var toolbar = kmeansStore((state) => state.toolbar)
     var selectedX = toolbar.selectedX
     var selectedY = toolbar.selectedY
     var isShowCluster = toolbar.isShowCluster
 
-    return (
-        <div className='w-[1000px]'>
-            {
-                apiData && <Scatter
-                    data={{
-                        datasets: convertData(apiData, selectedX, selectedY, isShowCluster),
-                    }}
-                    options={{
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: apiData.feature_names[selectedX]
-                                }
-                            },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: apiData.feature_names[selectedY]
-                                }
-                            }
-                        }
-                    }}
-                />
+    return <Scatter
+        data={{
+            datasets: convertData(apiData, selectedX, selectedY, isShowCluster),
+        }}
+        options={{
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: apiData.feature_names[selectedX]
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: apiData.feature_names[selectedY]
+                    }
+                }
             }
-        </div>
-    );
+        }}
+    />
+
 }

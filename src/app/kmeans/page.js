@@ -16,16 +16,16 @@ export default function Index() {
         loadPlot(selectedK);
     }, []);
 
-    return <>
+    return (<>
         {
-            apiData && <div className="p-4 flex flex-col items-center">
-                <h1 className="text-3xl mb-4">k-means clustering visualization (Iris dataset)</h1>
-                <div className="mb-4">
+            apiData && <div className="p-4">
+                <h1 className="text-xl md:text-3xl mb-8 text-center">k-means clustering visualization (Iris dataset)</h1>
+                <div className="w-full md:w-[80vw] md:h-[500px] max-w-[800px] mx-auto mb-8">
                     <Plot />
                 </div>
-                <div><ToolBar /></div>
-                {/* <div>DataTable</div> */}
+                <div className="flex justify-center"><ToolBar /></div>
             </div>
         }
-    </>
+    </>)
+
 }
