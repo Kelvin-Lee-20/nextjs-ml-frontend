@@ -20,7 +20,7 @@ export default function Index() {
         {
             apiData && <div className="p-4">
                 <h1 className="text-xl md:text-3xl mb-8 text-center">k-means clustering visualization (Iris dataset)</h1>
-                <div className="w-full md:w-[80vw] md:h-[500px] max-w-[800px] mx-auto mb-8">
+                <div className="w-full h-[300px] md:h-[500px] max-w-[800px] mx-auto mb-8">
                     <Plot />
                 </div>
                 <div className="flex justify-center"><ToolBar /></div>
