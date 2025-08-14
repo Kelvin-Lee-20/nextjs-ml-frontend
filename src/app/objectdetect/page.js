@@ -8,6 +8,7 @@ export default function Index() {
 
     const [detectionData, setDetectionData] = useState(null);
     const [boundingBox, setBoundingBox] = useState(null);
+    const [isLoadingData, setIsLoadingData] = useState(false);
 
     return (<>
         <div className="p-4">
@@ -16,12 +17,15 @@ export default function Index() {
                 <div className="flex justify-center p-0">
                     <MyDropPhotoBox
                         onDetectionComplete={setDetectionData}
+                        onDataLoading={setIsLoadingData}
                         bbox={boundingBox}
                     />
+                    {
+                        isLoadingData && <div className="ml-4 text-xl">Loading...</div>
+                    }
                     <div className="ml-2">
                         {
-                            detectionData
-                            &&
+                            !isLoadingData && detectionData &&
                             <ObjectDetectResults
                                 data={detectionData}
                                 onItemHover={(obj) => {

@@ -4,11 +4,10 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import { fetchObjectDetect } from "@/lib/apiService"
 import * as d3 from 'd3';
 
-export default function Index({ onDetectionComplete, bbox }) {
+export default function Index({ onDetectionComplete, onDataLoading, bbox, }) {
 
     const [image, setImage] = useState(null);
     const [imageSize, setImageSize] = useState(null);
-    const [isUploading, setIsUploading] = useState(false);
 
     const svgRef = useRef(null);
 
@@ -39,7 +38,7 @@ export default function Index({ onDetectionComplete, bbox }) {
     const uploadImage = async () => {
         if (!image) return;
 
-        setIsUploading(true);
+        onDataLoading(true);
 
         try {
             const blob = await fetch(image).then(res => res.blob());
@@ -52,7 +51,7 @@ export default function Index({ onDetectionComplete, bbox }) {
         } catch (error) {
             // setUploadResult({ error: error instanceof Error ? error.message : 'Upload failed' });
         } finally {
-            setIsUploading(false);
+            onDataLoading(false);
         }
     };
 
