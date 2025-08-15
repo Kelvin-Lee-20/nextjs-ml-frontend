@@ -8,13 +8,31 @@ export default function Index({ onDetectionComplete, onDataLoading, bbox, }) {
 
     const [image, setImage] = useState(null);
     const [imageSize, setImageSize] = useState(null);
+    const fileInputRef = useRef(null);
 
     const svgRef = useRef(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsSmallScreen(window.innerWidth <= 640);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     const handleDrop = useCallback((e) => {
         e.preventDefault();
         e.stopPropagation();
         const files = e.dataTransfer.files;
+        if (files && files.length > 0) processFile(files[0]);
+    }, []);
+
+    const handleFileSelect = useCallback((e) => {
+        const files = e.target.files;
         if (files && files.length > 0) processFile(files[0]);
     }, []);
 
@@ -89,8 +107,8 @@ export default function Index({ onDetectionComplete, onDataLoading, bbox, }) {
         if (!imageSize || !bbox) return
 
         let isPortrait = isPortraitPhoto()
-        const width = isPortrait ? (imageSize.width / imageSize.height) * 500 : 500;
-        const height = isPortrait ? 500 : (imageSize.height / imageSize.width) * 500;
+        const width = isPortrait ? (imageSize.width / imageSize.height) * (isSmallScreen ? 300 : 500) : (isSmallScreen ? 300 : 500);
+        const height = isPortrait ? (isSmallScreen ? 300 : 500) : (imageSize.height / imageSize.width) * (isSmallScreen ? 300 : 500);
 
         var ratioW = width / imageSize.width
         var ratioH = height / imageSize.height
@@ -131,41 +149,47 @@ export default function Index({ onDetectionComplete, onDataLoading, bbox, }) {
               text-center 
               items-center 
               justify-center 
-              flex 
-              w-[500px] 
-              h-[500px]"
+              flex
+              w-[300px]
+              h-[300px] 
+              sm:w-[500px] 
+              sm:h-[500px]
+              hover:cursor-pointer
+              "
             onDrop={handleDrop}
             onDragOver={handleDragOver}
+            onClick={() => fileInputRef.current?.click()}
         >
             {
-                imageSize ?
-                    <div className="flex flex-col items-center relative">
-                        <img
-                            src={image}
-                            alt="Preview"
-                            className={isPortraitPhoto() ? "h-[500px]" : "w-[500px]"}
-                        />
-                        <svg
-                            ref={svgRef}
-                            width={
-                                isPortraitPhoto() ? (imageSize.width / imageSize.height) * 500 : 500
-                            }
-                            height={
-                                isPortraitPhoto() ? 500 : (imageSize.height / imageSize.width) * 500
-                            }
-                            style={{ opacity: 1, _backgroundColor: 'red', position: 'absolute', cursor: 'crosshair' }}
-                        />
-                    </div>
-                    :
-                    <div>
-                        <p className="text-gray-600 text-xl">Drop me a photo</p>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                        />
-                    </div>
+                imageSize &&
+                <div className="flex flex-col items-center relative">
+                    <img
+                        src={image}
+                        alt="Preview"
+                        className={isPortraitPhoto() ? "h-[300px] sm:h-[500px]" : "w-[300px] sm:w-[500px]"}
+                    />
+                    <svg
+                        ref={svgRef}
+                        width={
+                            isPortraitPhoto() ? (imageSize.width / imageSize.height) * (isSmallScreen ? 300 : 500) : (isSmallScreen ? 300 : 500)
+                        }
+                        height={
+                            isPortraitPhoto() ? (isSmallScreen ? 300 : 500) : (imageSize.height / imageSize.width) * (isSmallScreen ? 300 : 500)
+                        }
+                        style={{ opacity: 1, _backgroundColor: 'red', position: 'absolute', pointerEents: 'none' }}
+                    />
+                </div>
             }
+            <div style={{ display: imageSize ? 'none' : 'unset' }}>
+                <p className="text-gray-600 text-xl">Drop me a photo</p>
+                <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                />
+            </div>
         </div>
     )
 
