@@ -1,5 +1,9 @@
 
+http://13.219.178.208:3000/kmeans
+
 <img width="640" alt="Image" src="https://github.com/user-attachments/assets/3e82e40e-5f3a-446b-a4e3-ea313d275d70" />
+
+http://13.219.178.208:3000/objectdetect
 
 <img width="640" alt="Image" src="https://github.com/user-attachments/assets/060944f2-8718-4e81-8e8d-a3aaba435fe6" />
 
